@@ -1,6 +1,7 @@
 package com.ticketservice.partner.exception;
 
 import com.ticketservice.partner.model.ErrorDTO;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,5 +22,13 @@ public class CustomExceptionHandler {
   public ResponseEntity<ErrorDTO> seatReservedException (Exception ex) {
     return ResponseEntity.status(400).body(new ErrorDTO("Már lefoglalt székre nem lehet jegyet eladni!",90010));
   }
+
+  @ExceptionHandler(value = AuthenticationException.class)
+  public ResponseEntity<ErrorDTO> authException (Exception ex) {
+    return ResponseEntity.status(401).body(new ErrorDTO(ex.getMessage(),90020));
+  }
+
+
+
 
 }
