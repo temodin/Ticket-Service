@@ -19,9 +19,9 @@ values ('dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJkY2N0MyQkNCRkNGQTMwRkNDQjM2Rjc
 
 insert into user_bank_card (card_id, card_number, cvc, name, amount, currency, user_id)
 values
-    (1000, 'C0001', 5299706965433676, 123, 'Teszt Aladár', 1000, 0),
-    (2000, 'C0002', 5390508354245119, 456, 'Teszt Benedek', 2000, 0),
-    (3000, 'C0003', 4929088924014470, 789, 'Teszt Cecília', 3000, 0);
+    ('C0001', 5299706965433676, 123, 'Teszt Aladár', 1000, 0, 1000),
+    ('C0002', 5390508354245119, 456, 'Teszt Benedek', 2000, 0, 2000),
+    ('C0003', 4929088924014470, 789, 'Teszt Cecília', 3000, 0, 3000);
 
 
 
