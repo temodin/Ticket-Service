@@ -16,13 +16,13 @@ public class CustomExceptionHandler {
   @ExceptionHandler(value = SeatNotFoundException.class)
   public ResponseEntity<ErrorDTO> noSuchSeatException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("Nem létezik ilyen szék!", 90002));
+    return ResponseEntity.status(404).body(new ErrorDTO("Nem létezik ilyen szék!", 90002));
   }
 
   @ExceptionHandler(value = TokenNotFoundException.class)
   public ResponseEntity<ErrorDTO> catchTokenNotFoundException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(401).body(new ErrorDTO("A felhasználói token nem szerepel", 10050));
+    return ResponseEntity.status(404).body(new ErrorDTO("A felhasználói token nem szerepel", 10050));
   }
 
   @ExceptionHandler(value = TokenInvalidException.class)
@@ -35,45 +35,45 @@ public class CustomExceptionHandler {
   @ExceptionHandler(value = IOException.class)
   public ResponseEntity<ErrorDTO> catchIOException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("A külső rendszer nem elérhető!", 20404));
+    return ResponseEntity.status(404).body(new ErrorDTO("A külső rendszer nem elérhető!", 20404));
   }
 
   @ExceptionHandler(value = UserCardNotExistingException.class)
   public ResponseEntity<ErrorDTO> catchUserCardNotExistingException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("Ismeretlen kártya", 10102));
+    return ResponseEntity.status(404).body(new ErrorDTO("Ismeretlen kártya", 10102));
   }
 
   @ExceptionHandler(value = NotEnoughBalanceException.class)
   public ResponseEntity<ErrorDTO> catchNotEnoughBalanceException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400)
+    return ResponseEntity.status(403)
         .body(new ErrorDTO("A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!", 10101));
   }
 
   @ExceptionHandler(value = UserAndCardNotMatchingException.class)
   public ResponseEntity<ErrorDTO> catchUserAndCardNotMatchingException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("Ez a bankkártya nem ehhez a felhasználóhoz tartozik", 10100));
+    return ResponseEntity.status(406).body(new ErrorDTO("Ez a bankkártya nem ehhez a felhasználóhoz tartozik", 10100));
   }
 
   @ExceptionHandler(value = EventInThePastException.class)
   public ResponseEntity<ErrorDTO> catchEventInThePastException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400)
+    return ResponseEntity.status(406)
         .body(new ErrorDTO("Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!", 20011));
   }
 
   @ExceptionHandler(value = EventNotFoundException.class)
   public ResponseEntity<ErrorDTO> catchEventNotFoundException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("Nem létezik ilyen esemény!", 20001));
+    return ResponseEntity.status(404).body(new ErrorDTO("Nem létezik ilyen esemény!", 20001));
   }
 
   @ExceptionHandler(value = SeatReservedException.class)
   public ResponseEntity<ErrorDTO> catchSeatReservedException(Exception ex) {
     log.warn(ex.getClass().getName());
-    return ResponseEntity.status(400).body(new ErrorDTO("Már lefoglalt székre nem lehet jegyet eladni!", 20010));
+    return ResponseEntity.status(406).body(new ErrorDTO("Már lefoglalt székre nem lehet jegyet eladni!", 20010));
   }
 
   @ExceptionHandler(value = RuntimeException.class)

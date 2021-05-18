@@ -73,13 +73,6 @@ public class PaymentService {
       throw new SeatReservedException();
     }
     return seat;
-
-    //TODO -> getEvents, check if exists, check timestamp
-    // check if seat exists and not reserved yet
-    //check price vs balance, then reserve
-    //if reservation is not successful, get error msg
-    //otherwise display reservationId
-
   }
 
   public ReservationDTO payForTicket(String token, PaymentDTO paymentDTO)

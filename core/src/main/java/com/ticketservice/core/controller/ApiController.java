@@ -56,13 +56,10 @@ public class ApiController {
       throws IOException, EventNotFoundException, UserCardException, SeatNotFoundException, EventInThePastException,
       SeatReservedException {
     ReservationDTO reservation = paymentService.payForTicket(userToken,request);
-
+    if (!reservation.isSuccess()) {
+      return ResponseEntity.status(406).body(reservation);
+    }
       return ResponseEntity.ok(reservation);
     }
-
-  private ResponseEntity<ErrorDTO> getErrorResponse (Response<JsonObject> response) throws IOException {
-    ErrorDTO errorDTO = gson.fromJson(response.errorBody().string(),ErrorDTO.class);
-    return ResponseEntity.status(400).body(errorDTO);
-  }
 
 }
