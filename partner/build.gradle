@@ -23,12 +23,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
+    implementation 'junit:junit:4.12'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile 'org.modelmapper:modelmapper:2.3.7'
+    testImplementation group: 'com.h2database', name: 'h2', version: '1.4.199'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
 }
 
 test {

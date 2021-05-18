@@ -36,6 +36,11 @@ public class Seat implements Comparable<Seat>{
   @JsonIgnore
   private Event event;
 
+  public Seat(String seatId) {
+    this.seatId = seatId;
+  }
+
+
   @Override
   public int compareTo(Seat seat) {
     if (getNumId() > seat.getNumId()) {
