@@ -1,7 +1,7 @@
 insert into event (id, title, location, start_time_stamp, end_time_stamp)
 values (1, 'Szilveszteri zártkörű rendezvény', 'Greenwich', 1577836800, 1577844000),
        (2, 'Májusi mulatság', 'Budapest', 1588334400, 1588348800),
-       (3, 'Necc party', 'Debrecen', 1607731200, 1607817599);
+       (3, 'Necc party', 'Debrecen', 1622324218084, 1622334218084);
 
 insert into seat (id, seat_id, price, currency, reserved, event_id)
 values (1,'S1', 1000, 0, true, 1),

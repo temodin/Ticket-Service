@@ -27,8 +27,4 @@ public class CustomExceptionHandler {
   public ResponseEntity<ErrorDTO> authException (Exception ex) {
     return ResponseEntity.status(401).body(new ErrorDTO(ex.getMessage(),90020));
   }
-
-
-
-
 }
