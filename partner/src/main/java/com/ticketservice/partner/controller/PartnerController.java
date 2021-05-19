@@ -44,7 +44,8 @@ public class PartnerController {
 
   @PostMapping("/reserve")
   public ResponseEntity<ReservationDTO> reserveSeat(@RequestBody ReservationRequestDTO request,
-                                                    @RequestHeader (name = "Authorization", required = false) String apiKey)
+                                                    @RequestHeader(name = "Authorization", required = false)
+                                                        String apiKey)
       throws ReservationException, AuthenticationException {
     apiService.checkKey(apiKey);
     ReservationDTO reservation = eventService.reserveSeat(request);

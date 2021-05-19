@@ -1,8 +1,7 @@
 #Application Setup
 Environment variables to set up on the server:
-- PARTNER_DATASOURCE_URL
-- PARTNER_KEY
-- PARTNER_DATASOURCE_URL
+- PARTNER_DATASOURCE_URL e.g. 'jdbc:mysql://localhost/partner?serverTimezone=UTC'
+- PARTNER_KEY e.g. 'secret'
 - SPRING_DATASOURCE_USERNAME
 - SPRING_DATASOURCE_PASSWORD
 

@@ -1,7 +1,5 @@
 package com.ticketservice.core.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.ticketservice.core.api.ApiService;
 import com.ticketservice.core.exception.EventInThePastException;
 import com.ticketservice.core.exception.EventNotFoundException;
@@ -33,7 +31,6 @@ import java.util.Optional;
 
 @Service
 public class PaymentService {
-  private final Gson gson = new GsonBuilder().create();
 
   @Autowired
   private CardRepository cardRepository;
@@ -56,42 +53,60 @@ public class PaymentService {
     return usertoken.isPresent();
   }
 
-  public Seat checkBeforePayment(PaymentDTO paymentDTO)
+  private Seat checkSeatBeforePayment(PaymentDTO paymentDTO)
       throws IOException, EventNotFoundException, SeatNotFoundException, EventInThePastException,
       SeatReservedException {
+
     EventsDTO eventsDTO = apiService.getEvents();
     Event event = eventsDTO.getData().stream().filter(e -> e.getId() == paymentDTO.getEventId()).findFirst()
         .orElseThrow(() -> new EventNotFoundException());
+
     if (System.currentTimeMillis() > event.getStartTimeStamp()) {
       throw new EventInThePastException();
     }
+
     SeatsDTO seatsDTO = apiService.getEvent(paymentDTO.getEventId());
     List<Seat> seats = seatsDTO.getData().getSeats();
     Seat seat = seats.stream().filter(s -> s.getSeatId().equals(paymentDTO.getSeatId())).findFirst()
         .orElseThrow(() -> new SeatNotFoundException());
+
     if (seat.isReserved()) {
       throw new SeatReservedException();
     }
+
     return seat;
   }
 
   public ReservationDTO payForTicket(String token, PaymentDTO paymentDTO)
       throws UserCardException, IOException, EventNotFoundException, EventInThePastException, SeatNotFoundException,
       SeatReservedException {
-    Seat seat = checkBeforePayment(paymentDTO);
+
+    Seat checkedSeat = checkSeatBeforePayment(paymentDTO);
+
     UserBankCard card = cardRepository.findById(paymentDTO.getCardId()).orElseThrow(UserCardNotExistingException::new);
-    if (getUserIdFromToken(token) != card.getUser().getUserId()) {
-      throw new UserAndCardNotMatchingException();
-    }
+    checkIfCardBelongsToUser(token, card.getUser().getUserId());
+
     ReservationDTO reservationDTO;
-    if (seat.getPrice() <= card.getAmount()) {
+    if (checkedSeat.getPrice() <= card.getAmount()) {
       reservationDTO = apiService.reserve(new ReservationRequestDTO(paymentDTO.getEventId(), paymentDTO.getSeatId()));
     } else {
       throw new NotEnoughBalanceException();
     }
-    card.setAmount(card.getAmount() - seat.getPrice());
-    cardRepository.save(card);
+
+    deductAmountFromCard(card, checkedSeat.getPrice());
+
     return reservationDTO;
+  }
+
+  private void checkIfCardBelongsToUser(String token, long userId) throws UserAndCardNotMatchingException {
+    if (getUserIdFromToken(token) != userId) {
+      throw new UserAndCardNotMatchingException();
+    }
+  }
+
+  private void deductAmountFromCard(UserBankCard card, Integer amount) {
+    card.setAmount(card.getAmount() - amount);
+    cardRepository.save(card);
   }
 }
 

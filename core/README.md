@@ -1,11 +1,11 @@
 #Application Setup
 Environment variables to set up on the server:
-- CORE_DATASOURCE_URL
-- PARTNER_API_URL
-- PARTNER_KEY
+- CORE_DATASOURCE_URL e.g. 'jdbc:mysql://localhost/core?serverTimezone=UTC'
+- PARTNER_API_URL e.g 'http://localhost:8080'
+- PARTNER_KEY e.g. 'secret'
 - SPRING_DATASOURCE_USERNAME
 - SPRING_DATASOURCE_PASSWORD
-- SPRING_LOGLEVEL
+- SPRING_LOGLEVEL e.g 'DEBUG'
 
 #Application Endpoints
 1. GET /getEvents

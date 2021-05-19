@@ -31,12 +31,14 @@ public class ApiService {
   public SeatsDTO getEvent(long eventId) throws IOException, EventNotFoundException {
     Response<JsonObject> response = partnerApi.getEvent(apiKey, eventId).execute();
     if (!response.isSuccessful()) {
-      ErrorDTO error = gson.fromJson(response.errorBody().string(),ErrorDTO.class);
+      ErrorDTO error = gson.fromJson(response.errorBody().string(), ErrorDTO.class);
       if (error.getErrorCode() == 90001) {
         throw new EventNotFoundException();
-      } else throw new IOException();
+      } else {
+        throw new IOException();
+      }
     }
-    SeatsDTO seats = gson.fromJson(response.body().toString(),SeatsDTO.class);
+    SeatsDTO seats = gson.fromJson(response.body().toString(), SeatsDTO.class);
     return seats;
   }
 
@@ -44,10 +46,11 @@ public class ApiService {
     Response<JsonObject> response = partnerApi.reserve(apiKey, request).execute();
     ReservationDTO reservation;
     if (!response.isSuccessful()) {
-      ErrorDTO error = gson.fromJson(response.errorBody().string(),ErrorDTO.class);
-      reservation = new ReservationDTO(false,Integer.toString(error.getErrorCode()));
+      ErrorDTO error = gson.fromJson(response.errorBody().string(), ErrorDTO.class);
+      reservation = new ReservationDTO(false, Integer.toString(error.getErrorCode()));
     } else {
-    reservation = gson.fromJson(response.body().toString(),ReservationDTO.class);}
+      reservation = gson.fromJson(response.body().toString(), ReservationDTO.class);
+    }
     return reservation;
   }
 }

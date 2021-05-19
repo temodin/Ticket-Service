@@ -7,10 +7,10 @@ import com.ticketservice.partner.exception.SeatReservedException;
 import com.ticketservice.partner.model.Event;
 import com.ticketservice.partner.model.EventSeats;
 import com.ticketservice.partner.model.EventsDTO;
-import com.ticketservice.partner.model.Seat;
-import com.ticketservice.partner.model.SeatsDTO;
 import com.ticketservice.partner.model.ReservationDTO;
 import com.ticketservice.partner.model.ReservationRequestDTO;
+import com.ticketservice.partner.model.Seat;
+import com.ticketservice.partner.model.SeatsDTO;
 import com.ticketservice.partner.repo.EventRepository;
 import com.ticketservice.partner.repo.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +48,11 @@ public class EventService {
 
   public ReservationDTO reserveSeat(ReservationRequestDTO request) throws ReservationException {
     eventRepository.findById(request.getEventId()).orElseThrow(EventNotFoundException::new);
-    Seat seat = seatRepository.findBySeatIdAndEvent(request.getSeatId(),new Event(request.getEventId()))
+    Seat seat = seatRepository.findBySeatIdAndEvent(request.getSeatId(), new Event(request.getEventId()))
         .orElseThrow(SeatNotFoundException::new);
-    if (seat.isReserved()) {throw new SeatReservedException();}
+    if (seat.isReserved()) {
+      throw new SeatReservedException();
+    }
     String reservationId = UUID.randomUUID().toString();
     seat.setReserved(true);
     seat.setReservationId(reservationId);
